@@ -1,0 +1,69 @@
+/* You can add global styles to this file, and also import other style files */
+*{
+    font-family: 'Roboto', sans-serif;
+}
+.get-started-item h2{
+    font-size:1.4rem;
+    border-bottom: 1px solid #EFEFEF;
+    padding-bottom: 10px;
+    margin-bottom: 20px; 
+}
+
+.get-started-item .accordion .card-header:after {
+    font-family: 'FontAwesome';  
+    content: "\f107";
+    float: right; 
+    color:#666;
+}
+.get-started-item .accordion .card-header.collapsed:after {
+    /* symbol for "collapsed" panels */
+    content: "\f104"; 
+}
+
+.get-started-item .card-header{
+    cursor: pointer;
+}
+
+.get-started-item h5{
+    font-size:1rem;
+    margin-bottom: 1rem;
+}
+.get-started-item .card-body{
+    font-size:0.9rem;
+}
+
+.get-started-item .tags{
+    margin-top:20px;
+    margin-bottom: 0;
+    font-style: italic;
+}
+
+.normal{
+    font-style: normal;
+}
+
+.get-started-item .badge{
+    padding:7px 15px;
+    font-weight: 300;
+    font-size:0.8rem;
+}
+
+.modal-body{
+    padding:0px !important;
+}
+.scrolly{
+    height: 340px;
+    overflow: auto;
+    overflow-x: hidden;
+    white-space: nowrap;
+}
+
+input.ng-invalid, textarea.ng-invalid{ border-left:5px solid red; }
+
+.error{
+    font-size:0.85rem;
+    color:#FF0000;
+}
+.modal-title{
+    font-size: 1.3rem !important;
+}

@@ -1,0 +1,18 @@
+header{
+    background-color: #375D81;
+    color:#FFF;
+    padding:6em 0 7em;
+}
+header h1{
+    font-size:3em;
+}
+header p{
+    font-size:1.2em;
+    width:70%
+}
+
+@media screen and (max-width: 767px) {
+    header p{
+        width:100%
+    }
+}

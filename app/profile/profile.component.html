@@ -1,0 +1,159 @@
+<section class="get-started-item">
+
+    <ng-template #profileContent let-c="close" let-d="dismiss">
+        <div class="modal-header">
+            <h4 class="modal-title">Profile</h4>
+            <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <form [formGroup]="profileForm" (ngSubmit)="postData()" id="profileForm" novalidate>
+            <div class="modal-body">
+                <div class="scrolly">
+                    <div class="py-4 px-4">
+                        <div class="form-group">
+                            <label for="inputAddress">Full name</label>
+                            <input type="text" class="form-control" id="inputAddress" placeholder="John Doe" formControlName="name">
+                            <div *ngIf="!profileForm.controls['name'].pristine && (profileForm.controls['name'].invalid || profileForm.controls['name'].untouched)"
+                                class="error">
+                                <div *ngIf="profileForm.controls['name'].hasError('required')">
+                                    Please enter name.
+                                </div>
+                                <div *ngIf="profileForm.controls['name'].hasError('minlength')">
+                                    Please enter at least 3 character.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputAddress">Email address</label>
+                            <input type="email" class="form-control" id="inputAddress" placeholder="john.doe@example.com" formControlName="email">
+                            <div *ngIf="!profileForm.controls['email'].pristine && (profileForm.controls['email'].invalid || profileForm.controls['email'].untouched)"
+                                class="error">
+                                <div *ngIf="profileForm.controls['email'].hasError('required')">
+                                    Please enter email address.
+                                </div>
+                                <div *ngIf="profileForm.controls['email'].hasError('email')">
+                                    Please enter valid email address.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="inputEmail4">Primary phone number</label>
+                                <input type="text" class="form-control" id="inputEmail4" placeholder="+91-9004057648" formControlName="primaryPhone">
+                                <div *ngIf="!profileForm.controls['primaryPhone'].pristine && (profileForm.controls['primaryPhone'].invalid || profileForm.controls['primaryPhone'].untouched)"
+                                    class="error">
+                                    <div *ngIf="profileForm.controls['primaryPhone'].hasError('required')">
+                                        Please enter primary phone number.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="inputPassword4">Secondary phone number</label>
+                                <input type="text" class="form-control" id="inputPassword4" placeholder="+91-7507494206" formControlName="secondaryPhone">
+                            </div>
+                        </div>
+                        <div class="form-row" formGroupName="address">
+                            <div class="form-group col-md-5">
+                                <label for="inputCity">City</label>
+                                <input type="text" class="form-control" id="inputCity" placeholder="Pune" formControlName="city">
+                                <div *ngIf="!profileForm.controls['address'].controls['city'].pristine && (profileForm.controls['address'].controls['city'].invalid || profileForm.controls['address'].controls['city'].untouched)"
+                                    class="error">
+                                    <div *ngIf="profileForm.controls['address'].controls['city'].hasError('required')">
+                                        Please enter city.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="inputState">State</label>
+                                <input type="text" class="form-control" id="inputState" placeholder="Maharashtra" formControlName="state">
+                                <div *ngIf="!profileForm.controls['address'].controls['state'].pristine && (profileForm.controls['address'].controls['state'].invalid || profileForm.controls['address'].controls['state'].untouched)"
+                                    class="error">
+                                    <div *ngIf="profileForm.controls['address'].controls['state'].hasError('required')">
+                                        Please enter state.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="inputZip">Zipcode</label>
+                                <input type="text" class="form-control" id="inputZip" placeholder="412114" formControlName="zipCode">
+                                <div *ngIf="!profileForm.controls['address'].controls['zipCode'].pristine && (profileForm.controls['address'].controls['zipCode'].invalid || profileForm.controls['address'].controls['zipCode'].untouched)"
+                                    class="error">
+                                    <div *ngIf="profileForm.controls['address'].controls['zipCode'].hasError('required')">
+                                        Please enter zipcode.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr/>
+                        <div class="form-group">
+                            <label for="inputAddress">Headline</label>
+                            <input type="text" class="form-control" id="inputAddress" placeholder="8 years in software development" formControlName="headline">
+                            <div *ngIf="!profileForm.controls['headline'].pristine && (profileForm.controls['headline'].invalid || profileForm.controls['headline'].untouched)"
+                                class="error">
+                                <div *ngIf="profileForm.controls['headline'].hasError('required')">
+                                    Please enter headline.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputAddress">Summary</label>
+                            <textarea class="form-control" id="inputAddress" rows="5" formControlName="summary"></textarea>
+                            <div *ngIf="!profileForm.controls['summary'].pristine && (profileForm.controls['summary'].invalid || profileForm.controls['summary'].untouched)"
+                                class="error">
+                                <div *ngIf="profileForm.controls['summary'].hasError('required')">
+                                    Please enter summary.
+                                </div>
+                                <div *ngIf="profileForm.controls['email'].hasError('minlength')">
+                                    Please enter at least 100 character.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default btn-sm" (click)="c('Close click')">Close</button>
+                <button type="submit" class="btn btn-outline-primary btn-sm" [disabled]="!profileForm.valid">Save changes</button>
+            </div>
+        </form>
+    </ng-template>
+
+    <div class="text-center my-5" [hidden]="profileValues">
+        <p class="heading text-muted mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+        <button type="button" class="btn btn-warning" (click)="open(profileContent)">
+            Add your profile data
+        </button>
+    </div>
+
+    <div class="card mb-5" [hidden]="!profileValues">
+        <h2 class="card-header mb-0">
+            Profile
+            <button type="button" class="btn btn-warning btn-sm px-3 float-right" (click)="open(profileContent)">Update</button>
+        </h2>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-sm-7">
+                    <h1>{{profile.name}}</h1>
+                    <p>{{profile.headline}}</p>
+                    <h5>{{profile.address.city}}, {{profile.address.state}}, {{profile.address.zipCode}}</h5>
+                </div>
+                <div class="col-sm-5">
+                    <h4>
+                        <div class="my-2">
+                            <i class="fa fa-phone text-muted"></i>{{profile.primaryPhone}} {{', '+profile.secondaryPhone}}
+                        </div>
+                        <div class="mb-0">
+                            <i class="fa fa-envelope text-muted"></i>{{profile.email}}
+                        </div>
+                    </h4>
+                </div>
+            </div>
+            <hr/>
+            <div class="clearfix">
+                <h5>{{profile.headline}}</h5>
+                <div class="mt-3 mb-0" [innerHTML]="profile.summary"></div>
+            </div>
+        </div>
+    </div>
+</section>

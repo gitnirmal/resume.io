@@ -1,0 +1,214 @@
+<section class="get-started-item">
+
+    <ng-template #experienceContent let-c="close" let-d="dismiss">
+        <div class="modal-header">
+            <h4 class="modal-title">Experience</h4>
+            <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <form [formGroup]="experienceForm" (ngSubmit)="postData()" id="experienceForm" novalidate>
+            <input type="hidden" formControlName="id">
+            <div class="modal-body">
+                <div class="scrolly">
+                    <div class="py-4 px-4">
+                        <div class="form-group">
+                            <label for="inputAddress">Designation</label>
+                            <input type="text" class="form-control" id="inputAddress" placeholder="Sr. Sofware Developer" formControlName="designation">
+                            <div *ngIf="!experienceForm.controls['designation'].pristine && (experienceForm.controls['designation'].invalid || experienceForm.controls['designation'].untouched)"
+                                class="error">
+                                <div *ngIf="experienceForm.controls['designation'].hasError('required')">
+                                    Please enter designation.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputAddress">Company name</label>
+                            <input type="text" class="form-control" id="inputAddress" placeholder="Example Inc." formControlName="companyName">
+                            <div *ngIf="!experienceForm.controls['companyName'].pristine && (experienceForm.controls['companyName'].invalid || experienceForm.controls['companyName'].untouched)"
+                                class="error">
+                                <div *ngIf="experienceForm.controls['companyName'].hasError('required')">
+                                    Please enter company name.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputAddress">Location</label>
+                            <input type="text" class="form-control" id="inputAddress" placeholder="Pune, India" formControlName="location">
+                            <div *ngIf="!experienceForm.controls['location'].pristine && (experienceForm.controls['location'].invalid || experienceForm.controls['location'].untouched)"
+                                class="error">
+                                <div *ngIf="experienceForm.controls['location'].hasError('required')">
+                                    Please enter location.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="inputEmail4">Start date</label>
+                                <input type="text" class="form-control" id="inputEmail4" placeholder="4/8/2016" formControlName="startDate">
+                                <div *ngIf="!experienceForm.controls['startDate'].pristine && (experienceForm.controls['startDate'].invalid || experienceForm.controls['startDate'].untouched)"
+                                    class="error">
+                                    <div *ngIf="experienceForm.controls['startDate'].hasError('required')">
+                                        Please enter start date.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="inputPassword4">End date</label>
+                                <input type="text" class="form-control" id="inputPassword4" placeholder="3/7/2017" formControlName="endDate" *ngIf="!recentOne">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" [checked]="recentOne" formControlName="endDate" (change)="checkRecentOne($event)">
+                                    <label class="form-check-label" for="recentOne">
+                                        Recent one
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputAddress">Description</label>
+                            <textarea class="form-control" id="inputAddress" rows="5" formControlName="description"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default btn-sm" (click)="c('Close click')">Close</button>
+                <button type="submit" class="btn btn-outline-primary btn-sm" [disabled]="!experienceForm.valid">Save changes</button>
+            </div>
+        </form>
+    </ng-template>
+
+    <h2>Experience
+        <button class="ml-3 btn btn-sm btn-warning px-3 float-right" (click)="open(experienceContent, {})">
+            <i class="mr-2 fa fa-plus"></i>Add new</button>
+    </h2>
+
+    <div class="accordion mb-5" id="accordionCompany">
+        <div class="card" *ngFor="let experience of experienceList; index as i">
+            <div class="card-header collapsed" [attr.id]="'company-heading-'+i" data-toggle="collapse" [attr.data-target]="'#company-collapse-'+i"
+                aria-expanded="true" [attr.aria-controls]="'company-collapse-'+i">
+                <a class="card-title">
+                    <span class="font-weight-bold">{{experience.designation}}</span> -
+                    <span>{{experience.companyName}}</span>
+                </a>
+            </div>
+
+            <div [attr.id]="'company-collapse-'+i" class="collapse" [attr.aria-labelledby]="'company-heading-'+i" data-parent="#accordionCompany">
+                <div class="card-body">
+                    <h5>{{experience.startDate}} - {{experience.endDate}}
+                        <small class="ml-4">{{experience.location}}</small>
+                    </h5>
+                    <p class="mb-0" [innerHTML]="experience.description"></p>
+
+                    <div class="btn-group" role="group" aria-label="Basic example">
+                        <button class="btn btn-sm btn-outline-primary mt-3 px-3" (click)="editData(i)">Edit</button>
+                        <button class="btn btn-sm btn-outline-danger mt-3 px-3" (click)="deleteData(i)">Delete</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--<div class="card">
+            <div class="card-header collapsed" id="company-heading-1" data-toggle="collapse" data-target="#company-collapse-1" aria-expanded="true"
+                aria-controls="company-collapse-1">
+                <a class="card-title">
+                    <span class="font-weight-bold">Sr. Software Consultant</span> -
+                    <span>Capgemini</span>
+                </a>
+            </div>
+
+            <div id="company-collapse-1" class="collapse" aria-labelledby="company-heading-1" data-parent="#accordionCompany">
+                <div class="card-body">
+                    <h5>27/6/2016 - Present</h5>
+                    <p class="mb-0">Here I worked for MasterCard client project RWAP (Reference Wallet Admin Portal). I have attended training
+                        of Adobe AEM an enterprise-grade web content management system and created POC’s. I have also attended
+                        training of Backbase and created POC’s. </p>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header collapsed" id="company-heading-2" data-toggle="collapse" data-target="#company-collapse-2" aria-expanded="false"
+                aria-controls="company-collapse-2">
+                <a class="card-title">
+                    <span class="font-weight-bold">Sr. Software Developer</span> -
+                    <span>BlueOcean Market Intelligence</span>
+                </a>
+            </div>
+            <div id="company-collapse-2" class="collapse" aria-labelledby="company-heading-2" data-parent="#accordionCompany">
+                <div class="card-body">
+                    <h5>20/7/2015 - 24/6/2016</h5>
+                    <p class="mb-0">Led developing, managing and team leading of target tool and price calculator application for Web system
+                        using AngularJS, HTML5(Bootstrap), CSS3, jQuery, JavaScript, PHP, MySql and web related tools.</p>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header collapsed" id="company-heading-3" data-toggle="collapse" data-target="#company-collapse-3" aria-expanded="false"
+                aria-controls="company-collapse-3">
+                <a class="card-title">
+                    <span class="font-weight-bold">Sr. Software Engineer</span> -
+                    <span>CeX Webuy Entertainment Pvt. Ltd.</span>
+                </a>
+            </div>
+            <div id="company-collapse-3" class="collapse" aria-labelledby="company-heading-3" data-parent="#accordionCompany">
+                <div class="card-body">
+                    <h5>18/7/2014 - 17/7/2015</h5>
+                    <p class="mb-0">Develop, maintain and support application programs for Web and mobile using jQuery, JavaScript, HTML5,
+                        PHP and web related tools. Analyze code for system testing and debugging; create test transactions
+                        to find, isolate and rectify issues.</p>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header collapsed" id="company-heading-4" data-toggle="collapse" data-target="#company-collapse-4" aria-expanded="false"
+                aria-controls="company-collapse-4">
+                <a class="card-title">
+                    <span class="font-weight-bold">Sr. Software Engineer</span> -
+                    <span>Mastek Ltd.</span>
+                </a>
+            </div>
+            <div id="company-collapse-4" class="collapse" aria-labelledby="company-heading-4" data-parent="#accordionCompany">
+                <div class="card-body">
+                    <h5>5/12/2011 - 19/2/2014</h5>
+                    <p class="mb-0">Develop, maintain and support web application using jQuery, JavaScript, XHTML, PHP, MySql, XML, XSLT
+                        and web related tools. Analyze requirement, create SOW(Statement of Work), create WBS(Work Breakdown
+                        Structure) and build entire Universal CMS system and also did system testing and debugging; create
+                        test transactions to find, isolate and rectify issues.</p>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header collapsed" id="company-heading-5" data-toggle="collapse" data-target="#company-collapse-5" aria-expanded="false"
+                aria-controls="company-collapse-5">
+                <a class="card-title">
+                    <span class="font-weight-bold">Sr. Software Engineer</span> -
+                    <span>SmartData Enterprises (I) Ltd.</span>
+                </a>
+            </div>
+            <div id="company-collapse-5" class="collapse" aria-labelledby="company-heading-5" data-parent="#accordionCompany">
+                <div class="card-body">
+                    <h5>27/4/2011 - 25/11/2011</h5>
+                    <p class="mb-0">Led programming tasks including development, enhancements, maintenance and support of jQuery, HTML, JavaScript,
+                        CSS, PHP, MySql, Drupal and CakePHP project for clients’. Engineered software products, handling
+                        complex analysis and complex programming to meet project requirements.</p>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header collapsed" id="company-heading-6" data-toggle="collapse" data-target="#company-collapse-6" aria-expanded="false"
+                aria-controls="company-collapse-6">
+                <a class="card-title">
+                    <span class="font-weight-bold">Sr. PHP Developer</span> -
+                    <span>Silicon Valley Infomedia Pvt. Ltd.</span>
+                </a>
+            </div>
+            <div id="company-collapse-6" class="collapse" aria-labelledby="company-heading-6" data-parent="#accordionCompany">
+                <div class="card-body">
+                    <h5>3/2/2009 - 25/4/2011</h5>
+                    <p class="mb-0">Led programming tasks including analysis, development, enhancements, maintenance and support for clients’
+                        applications and interfaces. Became adept in analyzing code for system testing and debugging. Client
+                        communication was the part of development and requirement gathering.</p>
+                </div>
+            </div>
+        </div>-->
+    </div>
+</section>
