@@ -2,7 +2,11 @@ import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
+import { IMyDpOptions } from 'mydatepicker';
+
 import { IExperience } from './experience.interface';
+
+import { DateValidators } from '../date-range.validator';
 
 @Component({
     selector: 'experience-block',
@@ -16,6 +20,9 @@ export class ExperienceComponent implements OnInit {
     experienceList: IExperience[];
     modalRef: NgbModalRef;
     recentOne: boolean = false;
+    myDatePickerOptions: IMyDpOptions = {
+        dateFormat: 'm/d/yyyy'
+    };
     @ViewChild('experienceContent') experienceContent: TemplateRef<any>;
 
     constructor(private _formBuilder: FormBuilder, private _modalService: NgbModal) { }
@@ -23,12 +30,12 @@ export class ExperienceComponent implements OnInit {
     ngOnInit() {
         this.experience = {
             id: null,
-            designation: null,
-            companyName: null,
-            location: null,
+            designation: 'Sr. Software Engineer',
+            companyName: 'Capgemini',
+            location: 'Pune, India',
             startDate: null,
             endDate: null,
-            description: null
+            description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.'
         };
         this.experienceFormValidation();
         this.experienceList = [];
@@ -50,13 +57,18 @@ export class ExperienceComponent implements OnInit {
     experienceFormValidation() {
         this.experienceForm = this._formBuilder.group({
             id: [null],
-            designation: [null, [Validators.required]],
-            companyName: [null, [Validators.required]],
-            location: [null, [Validators.required]],
+            designation: ['Sr. Software Developer', [Validators.required]],
+            companyName: ['Capgemini', [Validators.required]],
+            location: ['Pune, India', [Validators.required]],
             startDate: [null, [Validators.required]],
             endDate: [null],
-            description: [null]
-        });
+            description: ['Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.']
+        }, {
+                validator: Validators.compose([
+                    DateValidators.dateLessThan('startDate', 'endDate', { 'startDateError': true }),
+                    DateValidators.dateGreaterThan('endDate', 'startDate', { 'endDateError': true })
+                ])
+            });
     }
 
     open(content, params) {

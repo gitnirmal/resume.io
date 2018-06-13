@@ -45,17 +45,29 @@
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="inputEmail4">Start date</label>
-                                <input type="text" class="form-control" id="inputEmail4" placeholder="4/8/2016" formControlName="startDate">
+                                <!--<input type="text" class="form-control" id="inputEmail4" placeholder="4/8/2016" formControlName="startDate">-->
+                                <div class="clearfix">
+                                    <my-date-picker formControlName="startDate" [options]="myDatePickerOptions"></my-date-picker>
+                                </div>
                                 <div *ngIf="!experienceForm.controls['startDate'].pristine && (experienceForm.controls['startDate'].invalid || experienceForm.controls['startDate'].untouched)"
                                     class="error">
                                     <div *ngIf="experienceForm.controls['startDate'].hasError('required')">
                                         Please enter start date.
                                     </div>
                                 </div>
+                                <div class="error">
+                                    <div *ngIf="experienceForm.hasError('startDateError')">Start date must be before end date</div>
+                                </div>
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="inputPassword4">End date</label>
-                                <input type="text" class="form-control" id="inputPassword4" placeholder="3/7/2017" formControlName="endDate" *ngIf="!recentOne">
+                                <!--<input type="text" class="form-control" id="inputPassword4" placeholder="3/7/2017" formControlName="endDate" *ngIf="!recentOne">-->
+                                <div class="clearfix">
+                                    <my-date-picker formControlName="endDate" [options]="myDatePickerOptions" *ngIf="!recentOne"></my-date-picker>
+                                </div>
+                                <div class="error">
+                                    <div *ngIf="experienceForm.hasError('endDateError')">End date must be after start date</div>
+                                </div>
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" [checked]="recentOne" formControlName="endDate" (change)="checkRecentOne($event)">
                                     <label class="form-check-label" for="recentOne">
@@ -66,7 +78,8 @@
                         </div>
                         <div class="form-group">
                             <label for="inputAddress">Description</label>
-                            <textarea class="form-control" id="inputAddress" rows="5" formControlName="description"></textarea>
+                            <!--<textarea class="form-control" id="inputAddress" rows="5" formControlName="description"></textarea>-->
+                            <app-tinymce formControlName="description"></app-tinymce>
                         </div>
                     </div>
                 </div>
@@ -95,11 +108,10 @@
 
             <div [attr.id]="'company-collapse-'+i" class="collapse" [attr.aria-labelledby]="'company-heading-'+i" data-parent="#accordionCompany">
                 <div class="card-body">
-                    <h5>{{experience.startDate}} - {{experience.endDate}}
+                    <h5>{{experience.startDate | DisplayDate }} - {{experience.endDate | DisplayDate }}
                         <small class="ml-4">{{experience.location}}</small>
                     </h5>
                     <p class="mb-0" [innerHTML]="experience.description"></p>
-
                     <div class="btn-group" role="group" aria-label="Basic example">
                         <button class="btn btn-sm btn-outline-primary mt-3 px-3" (click)="editData(i)">Edit</button>
                         <button class="btn btn-sm btn-outline-danger mt-3 px-3" (click)="deleteData(i)">Delete</button>
@@ -107,108 +119,5 @@
                 </div>
             </div>
         </div>
-        <!--<div class="card">
-            <div class="card-header collapsed" id="company-heading-1" data-toggle="collapse" data-target="#company-collapse-1" aria-expanded="true"
-                aria-controls="company-collapse-1">
-                <a class="card-title">
-                    <span class="font-weight-bold">Sr. Software Consultant</span> -
-                    <span>Capgemini</span>
-                </a>
-            </div>
-
-            <div id="company-collapse-1" class="collapse" aria-labelledby="company-heading-1" data-parent="#accordionCompany">
-                <div class="card-body">
-                    <h5>27/6/2016 - Present</h5>
-                    <p class="mb-0">Here I worked for MasterCard client project RWAP (Reference Wallet Admin Portal). I have attended training
-                        of Adobe AEM an enterprise-grade web content management system and created POC’s. I have also attended
-                        training of Backbase and created POC’s. </p>
-                </div>
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-header collapsed" id="company-heading-2" data-toggle="collapse" data-target="#company-collapse-2" aria-expanded="false"
-                aria-controls="company-collapse-2">
-                <a class="card-title">
-                    <span class="font-weight-bold">Sr. Software Developer</span> -
-                    <span>BlueOcean Market Intelligence</span>
-                </a>
-            </div>
-            <div id="company-collapse-2" class="collapse" aria-labelledby="company-heading-2" data-parent="#accordionCompany">
-                <div class="card-body">
-                    <h5>20/7/2015 - 24/6/2016</h5>
-                    <p class="mb-0">Led developing, managing and team leading of target tool and price calculator application for Web system
-                        using AngularJS, HTML5(Bootstrap), CSS3, jQuery, JavaScript, PHP, MySql and web related tools.</p>
-                </div>
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-header collapsed" id="company-heading-3" data-toggle="collapse" data-target="#company-collapse-3" aria-expanded="false"
-                aria-controls="company-collapse-3">
-                <a class="card-title">
-                    <span class="font-weight-bold">Sr. Software Engineer</span> -
-                    <span>CeX Webuy Entertainment Pvt. Ltd.</span>
-                </a>
-            </div>
-            <div id="company-collapse-3" class="collapse" aria-labelledby="company-heading-3" data-parent="#accordionCompany">
-                <div class="card-body">
-                    <h5>18/7/2014 - 17/7/2015</h5>
-                    <p class="mb-0">Develop, maintain and support application programs for Web and mobile using jQuery, JavaScript, HTML5,
-                        PHP and web related tools. Analyze code for system testing and debugging; create test transactions
-                        to find, isolate and rectify issues.</p>
-                </div>
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-header collapsed" id="company-heading-4" data-toggle="collapse" data-target="#company-collapse-4" aria-expanded="false"
-                aria-controls="company-collapse-4">
-                <a class="card-title">
-                    <span class="font-weight-bold">Sr. Software Engineer</span> -
-                    <span>Mastek Ltd.</span>
-                </a>
-            </div>
-            <div id="company-collapse-4" class="collapse" aria-labelledby="company-heading-4" data-parent="#accordionCompany">
-                <div class="card-body">
-                    <h5>5/12/2011 - 19/2/2014</h5>
-                    <p class="mb-0">Develop, maintain and support web application using jQuery, JavaScript, XHTML, PHP, MySql, XML, XSLT
-                        and web related tools. Analyze requirement, create SOW(Statement of Work), create WBS(Work Breakdown
-                        Structure) and build entire Universal CMS system and also did system testing and debugging; create
-                        test transactions to find, isolate and rectify issues.</p>
-                </div>
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-header collapsed" id="company-heading-5" data-toggle="collapse" data-target="#company-collapse-5" aria-expanded="false"
-                aria-controls="company-collapse-5">
-                <a class="card-title">
-                    <span class="font-weight-bold">Sr. Software Engineer</span> -
-                    <span>SmartData Enterprises (I) Ltd.</span>
-                </a>
-            </div>
-            <div id="company-collapse-5" class="collapse" aria-labelledby="company-heading-5" data-parent="#accordionCompany">
-                <div class="card-body">
-                    <h5>27/4/2011 - 25/11/2011</h5>
-                    <p class="mb-0">Led programming tasks including development, enhancements, maintenance and support of jQuery, HTML, JavaScript,
-                        CSS, PHP, MySql, Drupal and CakePHP project for clients’. Engineered software products, handling
-                        complex analysis and complex programming to meet project requirements.</p>
-                </div>
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-header collapsed" id="company-heading-6" data-toggle="collapse" data-target="#company-collapse-6" aria-expanded="false"
-                aria-controls="company-collapse-6">
-                <a class="card-title">
-                    <span class="font-weight-bold">Sr. PHP Developer</span> -
-                    <span>Silicon Valley Infomedia Pvt. Ltd.</span>
-                </a>
-            </div>
-            <div id="company-collapse-6" class="collapse" aria-labelledby="company-heading-6" data-parent="#accordionCompany">
-                <div class="card-body">
-                    <h5>3/2/2009 - 25/4/2011</h5>
-                    <p class="mb-0">Led programming tasks including analysis, development, enhancements, maintenance and support for clients’
-                        applications and interfaces. Became adept in analyzing code for system testing and debugging. Client
-                        communication was the part of development and requirement gathering.</p>
-                </div>
-            </div>
-        </div>-->
     </div>
 </section>
